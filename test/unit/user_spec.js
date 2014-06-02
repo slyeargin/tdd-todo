@@ -25,8 +25,11 @@ describe('User', function(){
 
   beforeEach(function(done){
     global.nss.db.collection('users').drop(done);
+  });
+
+  beforeEach(function(done){
     var obj = {email:'sue@aol.com', password: '1234'};
-    User.register(obj, done());
+    User.register(obj, done);
   });
 
   describe('.register', function(){
