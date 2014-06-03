@@ -13,7 +13,7 @@ class User{
       }else{
         obj.password = bcrypt.hashSync(obj.password, 8);
         obj = _.create(User.prototype, obj);
-        users.save(obj, o=>fn(o));
+        users.save(obj, ()=>fn(obj));
       }
     });
   }

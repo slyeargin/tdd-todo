@@ -24,29 +24,37 @@ describe('User', function(){
   });
 
   beforeEach(function(done){
-    global.nss.db.collection('users').drop(done);
-  });
-
-  beforeEach(function(done){
-    var obj = {email:'sue@aol.com', password: '1234'};
-    User.register(obj, done);
+    global.nss.db.collection('users').drop(function(){
+      done();
+    });
   });
 
   describe('.register', function(){
-    it('should successfully register a user', function(){
+    beforeEach(function(done){
+      var obj = {email:'sue@aol.com', password: '1234'};
+      User.register(obj, function(){ done(); });
+    });
+
+    it('should successfully register a user', function(done){
       var obj = {email:'bob@aol.com', password: '1234'};
       User.register(obj, function(u){
+        console.log('test 1');
+        console.log(u);
         expect(u).to.be.ok;
         expect(u).to.be.an.instanceOf(User);
         expect(u._id).to.be.an.instanceOf(Mongo.ObjectID);
-        expect(u.password).to.not.equal(obj.password);
+        expect(u.password).to.have.length(60);
+        done();
       });
     });
 
-    it('should refuse to register a duplicate user', function(){
+    it('should refuse to register a duplicate user', function(done){
       var obj = {email:'sue@aol.com', password: '1234'};
       User.register(obj, function(u){
+        console.log('test 2');
+        console.log(u);
         expect(u).to.be.null;
+        done();
       });
     });
 
